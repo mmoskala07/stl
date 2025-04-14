@@ -1,6 +1,7 @@
 #include "compression.hpp"
 #include <iomanip>
 #include <iostream>
+#include <algorithm>
 
 static size_t constexpr VALUE = 0;
 static size_t constexpr OCCURENCES = 1;
@@ -10,21 +11,21 @@ comp_img_t compressGrayscale(img_t image) {
     uint8_t img_value = image[0][0];
     uint8_t occurences = 0;
 
-    for (size_t row = 0; row < image.size(); row++) {
-        img_value = image[row][0];
+    std::for_each(image.begin(), image.end(), [&img_value, &occurences, &img_compressed](auto& col){
+        img_value = col[0];
         occurences = 0;
 
-        for (size_t col = 0; col < image[0].size(); col++) {
-            if (img_value == image[row][col]) {
+        std::for_each(col.begin(), col.end(), [&img_value, &occurences, &img_compressed](auto& pixel){
+            if (img_value == pixel) {
                 occurences++;
             } else {
                 img_compressed.push_back(std::make_pair(img_value, occurences));
-                img_value = image[row][col];
+                img_value = pixel;
                 occurences = 1;
             }
-        }
+        });
         img_compressed.push_back(std::make_pair(img_value, occurences));
-    }
+    });
     return img_compressed;
 }
 
