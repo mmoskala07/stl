@@ -136,8 +136,6 @@ TEST(advancedCalculatorTest, ShouldFactorial) {
 TEST(advancedCalculatorTest, ShouldReturnBadFormat) {
     double result = 0;
 
-    ASSERT_EQ(process("5,1!", &result), ErrorCode::BadFormat);
-    ASSERT_EQ(process("11,3 + 12.4", &result), ErrorCode::BadFormat);
     ASSERT_EQ(process("13.4 ++ 12.43", &result), ErrorCode::BadFormat);
     ASSERT_EQ(process("13.2 + 12.3 + 13.0", &result), ErrorCode::BadFormat);
     ASSERT_EQ(process("-12.4! + 2", &result), ErrorCode::BadFormat);
@@ -152,6 +150,8 @@ TEST(advancedCalculatorTest, ShouldReturnBadFormat) {
 TEST(advancedCalculatorTest, ShouldReturnBadCharacter) {
     double result = 0;
 
+    ASSERT_EQ(process("5,1!", &result), ErrorCode::BadCharacter);
+    ASSERT_EQ(process("11,3 + 12.4", &result), ErrorCode::BadCharacter);
     ASSERT_EQ(process("123 #- 123", &result), ErrorCode::BadCharacter);
     ASSERT_EQ(process("123 @- 123", &result), ErrorCode::BadCharacter);
     ASSERT_EQ(process("123 &- 123", &result), ErrorCode::BadCharacter);
